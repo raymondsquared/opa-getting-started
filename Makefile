@@ -3,3 +3,6 @@ k8s__%:
 
 app__%:
 	${MAKE} --directory javascript-application -f Makefile $*
+
+api-gateway__%:
+	${MAKE} --directory api-gateway -f Makefile $*

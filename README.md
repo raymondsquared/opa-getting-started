@@ -20,6 +20,7 @@ Read this page to learn about the core concepts in OPA’s policy language (Rego
 - OPA
 - [OPA GateKeeper](https://open-policy-agent.github.io/gatekeeper/website/)
 - [OPA for HTTP API](https://www.openpolicyagent.org/docs/latest/http-api-authorization/)
+- [WSO2 Api Gateway](https://apim.docs.wso2.com/en/4.1.0/design/api-security/opa-validation/overview/)
 
 ## 🛠 Installation
 
@@ -27,6 +28,7 @@ Read this page to learn about the core concepts in OPA’s policy language (Rego
 # Install dependencies
 make k8s__install
 make app__install
+make api-gateway__install
 ```
 
 ## 📚 Usage
@@ -44,6 +46,11 @@ make app__install                       # Install app
 make app__run-opa                       # Run OPA server
 make app__run-app                       # Run JavaScript web API server
 make app__test                          # Run OPA test
+
+make api-gateway__install               # Install app
+make api-gateway__run-opa               # Run OPA server
+make api-gateway__run-api-gateway       # Run WSO2 API Gateway
+make api-gateway__test                  # Run OPA test
 ```
 
 ## 🤝 Contributing
@@ -52,7 +59,7 @@ We welcome contributions to Kubernetes Deployment Strategy! Please see the [CONT
 
 ## 📜 License
 
-OPA is open-source software licensed under the [MIT license](http://www.apache.org/licenses/mit).
+This repo is open-source software licensed under the [MIT license](http://www.apache.org/licenses/mit).
 
 ## 🙏 Acknowledgements
 
