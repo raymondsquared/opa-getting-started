@@ -9,3 +9,6 @@ api-gateway__%:
 
 terraform__%:
 	${MAKE} --directory terraform -f Makefile $*
+
+kafka__%:
+	${MAKE} --directory kafka -f Makefile $*

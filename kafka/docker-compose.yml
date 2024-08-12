@@ -1,0 +1,64 @@
+services:
+  nginx:
+    image: nginx:1.27.0
+    volumes:
+      - './bundles:/usr/share/nginx/html'
+    ports:
+      - '80:80'
+  opa:
+    image: openpolicyagent/opa:0.67.1
+    ports:
+      - '8181:8181'
+    command:
+      - 'run'
+      - '--server'
+      - '--set=decision_logs.console=true'
+      - '--set=services.authz.url=http://nginx'
+      - '--set=bundles.authz.service=authz'
+      - '--set=bundles.authz.resource=bundle.tar.gz'
+    depends_on:
+      - nginx
+  zookeeper:
+    image: confluentinc/cp-zookeeper:6.2.1
+    ports:
+      - '2181:2181'
+    environment:
+      - ALLOW_ANONYMOUS_LOGIN=yes
+      - ZOOKEEPER_CLIENT_PORT=2181
+  broker:
+    image: confluentinc/cp-kafka:6.2.1
+    ports:
+      - 9093:9093
+      - 9092:9092
+      - 29092:29092
+      - 8083:8083
+    environment:
+      CLASSPATH: '/plugin/*'
+      KAFKA_AUTHORIZER_CLASS_NAME: org.openpolicyagent.kafka.OpaAuthorizer
+      KAFKA_OPA_AUTHORIZER_URL: http://opa:8181/v1/data/kafka/authz/allow
+      KAFKA_OPA_AUTHORIZER_CACHE_EXPIRE_AFTER_SECONDS: 10 # For development only
+      KAFKA_BROKER_ID: 1
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: 'true'
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_LISTENERS: PLAINTEXT://:29092,PLAINTEXT_HOST://:9092,CONTROLLER://:9093
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://broker:29092,PLAINTEXT_HOST://localhost:9092
+    volumes:
+      - './plugin:/plugin'
+    depends_on:
+      - opa
+      - zookeeper
+  kafka-ui:
+    image: provectuslabs/kafka-ui:v0.7.2
+    depends_on:
+      - broker
+    ports:
+      - 8080:8080
+      - 9997:9997
+    environment:
+      KAFKA_CLUSTERS_0_NAME: localhost
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: broker:29092
