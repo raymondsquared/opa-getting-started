@@ -6,3 +6,6 @@ app__%:
 
 api-gateway__%:
 	${MAKE} --directory api-gateway -f Makefile $*
+
+terraform__%:
+	${MAKE} --directory terraform -f Makefile $*

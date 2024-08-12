@@ -21,6 +21,7 @@ Read this page to learn about the core concepts in OPA’s policy language (Rego
 - [OPA GateKeeper](https://open-policy-agent.github.io/gatekeeper/website/)
 - [OPA for HTTP API](https://www.openpolicyagent.org/docs/latest/http-api-authorization/)
 - [WSO2 Api Gateway](https://apim.docs.wso2.com/en/4.1.0/design/api-security/opa-validation/overview/)
+- [Terraform](https://www.openpolicyagent.org/docs/latest/terraform/)
 
 ## 🛠 Installation
 
@@ -29,6 +30,7 @@ Read this page to learn about the core concepts in OPA’s policy language (Rego
 make k8s__install
 make app__install
 make api-gateway__install
+make terraform__install
 ```
 
 ## 📚 Usage
@@ -51,6 +53,10 @@ make api-gateway__install               # Install app
 make api-gateway__run-opa               # Run OPA server
 make api-gateway__run-api-gateway       # Run WSO2 API Gateway
 make api-gateway__test                  # Run OPA test
+
+make terraform_install                  # Install app
+make terraform_run                      # Initiate Terraform plan
+make terraform_test                     # Run OPA tests
 ```
 
 ## 🤝 Contributing
