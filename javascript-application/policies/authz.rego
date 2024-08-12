@@ -10,13 +10,13 @@ allow if {
 	input.path in ["/health-check"]
 }
 
-is_admin if {
-	some role in input.roles
-	role in ["admin", "super-admin"]
-}
-
 allow if {
 	is_admin
 	input.method == "GET"
 	input.path in ["/admin"]
+}
+
+is_admin if {
+	some role in input.roles
+	role in ["admin", "super-admin"]
 }

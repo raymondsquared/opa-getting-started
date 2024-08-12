@@ -11,7 +11,7 @@ install: install-opa install-javascript
 
 .PHONY: run-opa
 run-opa:
-	opa run --server authz.rego
+	opa run --server policies/authz.rego
 
 .PHONY: run-app
 run-app:
@@ -19,7 +19,7 @@ run-app:
 
 .PHONY: test-opa
 test-opa:
-	opa test authz_test.rego authz.rego -v
+	opa test policies/authz_test.rego policies/authz.rego -v
 
 .PHONY: test
 test: test-opa
